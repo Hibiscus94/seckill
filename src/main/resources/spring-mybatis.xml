@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 配置整合mybatis -->
+    <!-- 1.配置数据库相关参数 -->
+    <context:property-placeholder location="classpath:conf.properties"/>
+
+    <!-- 2.数据库连接池配置 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--初始化连接大小-->
+        <property name="initialSize" value="${initialSize}"/>
+        <!--连接池最大数量-->
+        <property name="maxActive" value="${maxActive}"/>
+        <!--连接池最小空闲-->
+        <property name="minIdle" value="${minIdle}"/>
+        <!--获取连接最大等待时间-->
+        <property name="maxWait" value="${maxWait}"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="5000"/>
+        <property name="minEvictableIdleTimeMillis" value="30000"/>
+        <property name="validationQuery" value="SELECT'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="1800"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="filters" value="stat"/>
+        <property name="connectionProperties" value="druid.stat.slowSqlMillis=100"/>
+    </bean>
+
+    <!-- 3.sqlSessionFactory  spring和MyBatis完美整合 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 配置mybatis 全局配置文件 mybatis-config.xml -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 扫描entity包 使用别名 -->
+        <property name="typeAliasesPackage" value="com.mutou.seckill.entity"/>
+        <!--自动扫描mapping.xml文件-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+    <!-- 4.配置扫描Dao接口包,动态实现Dao接口,注入到spring容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 给出扫描dao接口包 -->
+        <property name="basePackage" value="com.mutou.seckill.dao"/>
+    </bean>
+</beans>
