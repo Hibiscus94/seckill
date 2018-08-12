@@ -20,8 +20,8 @@
         <mybatis-spring.version>1.3.1</mybatis-spring.version>
         <pagehelper.version>4.2.1</pagehelper.version>
         <junit.version>4.12</junit.version>
-        <druid.version>1.1.0</druid.version>
-        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
+        <druid.version>1.1.10</druid.version>
+        <mysql-connector-java.version>8.0.12</mysql-connector-java.version>
         <jstl.version>1.2</jstl.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <standard.version>1.1.2</standard.version>
@@ -164,6 +164,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -186,7 +190,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.42</version>
+                        <version>8.0.12</version>
                     </dependency>
                     <dependency>
                         <groupId>com.mutou.commentgenerator</groupId>
