@@ -58,7 +58,7 @@ public class SeckillController {
         if (seckill == null) {
             return "forward:/seckill/list";
         }
-        logger.info("seckill={}",seckill);
+        logger.info("seckill={}", seckill);
         model.addAttribute("seckill", seckill);
         return "detail";
     }
@@ -106,7 +106,7 @@ public class SeckillController {
         }
     }
 
-    @RequestMapping(value = "/time/now", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/time/now", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Result<Long> nowTime() {
         Date now = new Date();
